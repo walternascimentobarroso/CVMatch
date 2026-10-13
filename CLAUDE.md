@@ -4,7 +4,9 @@ App para candidatos: o utilizador envia o CV e a descrição de uma vaga, e rece
 
 ## Estado
 
-Projeto ainda sem código. A stack abaixo está decidida; tudo o resto (fornecedor de LLM, persistência, autenticação, hospedagem) está em aberto e deve ser registado com `/adr` quando for decidido.
+Projeto ainda sem código. O âmbito do MVP e os requisitos estão em `docs/prd.md` — lê-o antes de escrever uma spec.
+
+Ferramenta de uso pessoal: corre só localmente, sem contas, sem base de dados e sem hospedagem. O LLM é a Groq (`GROQ_API_KEY` em `.env`). O modelo da Groq está em aberto e deve ser registado com `/adr` quando for escolhido.
 
 ## Stack
 
@@ -18,7 +20,7 @@ Qualquer funcionalidade segue esta ordem:
 
 1. `/spec <nome>` — clarifica objetivo, requisitos e critérios de "concluído"; grava em `specs/<nome>.md`.
 2. `/build <nome>` — implementa exatamente o que está na spec, sem requisitos inventados.
-3. `/review-spec <nome>` — valida a implementação requisito a requisito; só fecha quando todos passarem.
+3. `/review-spec <nome>` — valida a implementação requisito a requisito; só fecha quando todos passarem. O comportamento da interface é verificado no browser com o MCP do Playwright (`.mcp.json`).
 
 Não implementar funcionalidades sem spec em `specs/`.
 
@@ -39,6 +41,7 @@ Não implementar funcionalidades sem spec em `specs/`.
 
 ```
 specs/               specs das funcionalidades
+docs/prd.md          âmbito e requisitos do MVP
 docs/adr/            decisões de arquitetura
 docs/architecture/   diagramas C4
 ```

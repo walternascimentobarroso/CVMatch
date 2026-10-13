@@ -1,0 +1,7 @@
+# Decisões de Arquitetura (ADRs)
+
+Registro imutável das decisões técnicas importantes. Para mudar uma decisão, crie um novo ADR que substitua o anterior.
+
+| Nº | Decisão | Status | Data |
+|---|---|---|---|
+| [0001](0001-usar-pdfjs-dist-para-extrair-texto.md) | Usar pdfjs-dist para extrair o texto do CV no browser | Proposto | 2026-10-13 |
