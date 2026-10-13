@@ -1,6 +1,6 @@
 # ADR 0001: Usar pdfjs-dist para extrair o texto do CV no browser
 
-- **Status:** Proposto
+- **Status:** Aceito (2026-10-13)
 - **Data:** 2026-10-13
 - **Decisores:** Walter Nascimento
 - **Origem:** [PRD](../prd.md) · [Spec cv-upload](../../specs/cv-upload.md)
