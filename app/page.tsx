@@ -1,4 +1,4 @@
-import { CvBlock } from "@/components/cv-block";
+import { AnalysisPanel } from "@/components/analysis-panel";
 import {
   Card,
   CardContent,
@@ -9,8 +9,8 @@ import {
 
 export default function Home() {
   return (
-    <main className="flex flex-1 items-center justify-center p-6">
-      <Card className="w-full max-w-md">
+    <main className="flex flex-1 items-start justify-center p-4 sm:p-6">
+      <Card className="w-full max-w-3xl">
         <CardHeader>
           <CardTitle>CVMatch</CardTitle>
           <CardDescription>
@@ -19,7 +19,7 @@ export default function Home() {
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <CvBlock />
+          <AnalysisPanel />
         </CardContent>
       </Card>
     </main>

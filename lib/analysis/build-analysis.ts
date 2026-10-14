@@ -26,3 +26,5 @@ export function buildAnalysis(llmAnalysis: LlmAnalysis, cvText: string) {
     suggestions: keepSuggestionsFoundInCv(llmAnalysis.suggestions, cvText),
   };
 }
+
+export type Analysis = ReturnType<typeof buildAnalysis>;

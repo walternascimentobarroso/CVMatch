@@ -12,7 +12,7 @@ import {
 } from "@/lib/cv-storage";
 import { readCvFile } from "@/lib/read-cv-file";
 
-function useStoredCv() {
+export function useStoredCv() {
   const serializedCv = useSyncExternalStore(
     subscribeToStoredCv,
     readSerializedCv,
@@ -24,7 +24,7 @@ function useStoredCv() {
   );
 }
 
-export function CvBlock() {
+export function CvBlock({ disabled = false }: { disabled?: boolean }) {
   const cv = useStoredCv();
   const fileInput = useRef<HTMLInputElement>(null);
   const [isExtracting, setIsExtracting] = useState(false);
@@ -81,13 +81,17 @@ export function CvBlock() {
       />
       <div className="flex gap-2">
         <Button
-          disabled={isExtracting}
+          disabled={disabled || isExtracting}
           onClick={() => fileInput.current?.click()}
         >
           Escolher ficheiro
         </Button>
         {cv && (
-          <Button variant="outline" disabled={isExtracting} onClick={removeCv}>
+          <Button
+            variant="outline"
+            disabled={disabled || isExtracting}
+            onClick={removeCv}
+          >
             Remover
           </Button>
         )}
