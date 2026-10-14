@@ -5,7 +5,16 @@ import { useState } from "react";
 
 import { AnalysisResult } from "@/components/analysis-result";
 import { CvBlock, useStoredCv } from "@/components/cv-block";
+import { ScoreRing } from "@/components/score-ring";
+import { StatusBadge } from "@/components/status-badge";
 import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardAction,
+  CardContent,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import type { AnalysisErrorCode } from "@/lib/analysis/analysis-error";
 import type { Analysis } from "@/lib/analysis/build-analysis";
 
@@ -76,26 +85,52 @@ export function AnalysisPanel() {
   }
 
   return (
-    <div className="flex flex-col gap-6">
-      <CvBlock disabled={isAnalyzing} />
+    <div className="flex flex-col gap-8">
+      <div className="grid items-center gap-6 lg:grid-cols-[1fr_auto_1fr]">
+        <CvBlock disabled={isAnalyzing} />
 
-      <div className="flex flex-col gap-2">
-        <label htmlFor="job-text" className="font-medium">
-          Descrição da vaga
-        </label>
-        <textarea
-          id="job-text"
-          rows={8}
-          value={jobText}
-          disabled={isAnalyzing}
-          onChange={(event) => setJobText(event.target.value)}
-          placeholder="Cola aqui o texto da vaga…"
-          className="w-full rounded-lg border border-input bg-transparent p-3 outline-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 disabled:opacity-50"
+        <ScoreRing
+          score={analysis?.globalScore ?? null}
+          missingCount={analysis?.missingRequirements.length ?? 0}
         />
+
+        <Card className="h-full shadow-lg">
+          <CardHeader>
+            <CardTitle>
+              <label
+                htmlFor="job-text"
+                className="text-sm font-bold tracking-widest text-muted-foreground"
+              >
+                DESCRIÇÃO DA VAGA
+              </label>
+            </CardTitle>
+            {jobText.trim() !== "" && (
+              <CardAction>
+                <StatusBadge>COLADO ✓</StatusBadge>
+              </CardAction>
+            )}
+          </CardHeader>
+          <CardContent>
+            <textarea
+              id="job-text"
+              rows={10}
+              value={jobText}
+              disabled={isAnalyzing}
+              onChange={(event) => setJobText(event.target.value)}
+              placeholder="Cola aqui o texto da vaga…"
+              className="w-full rounded-lg border border-input bg-transparent p-3 outline-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 disabled:opacity-50"
+            />
+          </CardContent>
+        </Card>
       </div>
 
-      <div className="flex flex-wrap items-center gap-3">
-        <Button disabled={hint !== null || isAnalyzing} onClick={analyze}>
+      <div className="flex flex-col items-center gap-3">
+        <Button
+          size="lg"
+          className="h-14 rounded-xl px-10 text-lg shadow-lg"
+          disabled={hint !== null || isAnalyzing}
+          onClick={analyze}
+        >
           {isAnalyzing && <Loader2 className="animate-spin" aria-hidden />}
           {isAnalyzing ? "A analisar…" : "Analisar"}
         </Button>
@@ -108,7 +143,10 @@ export function AnalysisPanel() {
       </div>
 
       {error && (
-        <div role="alert" className="flex flex-wrap items-center gap-3">
+        <div
+          role="alert"
+          className="flex flex-wrap items-center justify-center gap-3"
+        >
           <p className="text-destructive">{error}</p>
           <Button variant="outline" disabled={hint !== null} onClick={analyze}>
             Tentar de novo

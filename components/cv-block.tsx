@@ -2,7 +2,15 @@
 
 import { useMemo, useRef, useState, useSyncExternalStore } from "react";
 
+import { StatusBadge } from "@/components/status-badge";
 import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardAction,
+  CardContent,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import {
   readSerializedCv,
   removeCv,
@@ -52,57 +60,69 @@ export function CvBlock({ disabled = false }: { disabled?: boolean }) {
   }
 
   return (
-    <div className="flex flex-col gap-3">
-      {cv ? (
-        <div className="flex flex-col gap-1">
-          <p className="font-medium">CV em uso: {cv.fileName}</p>
-          <p className="text-muted-foreground">
-            Carregado em {new Date(cv.uploadedAt).toLocaleString("pt-PT")}
-          </p>
-          <details>
-            <summary className="cursor-pointer">
-              Pré-visualizar o texto extraído
-            </summary>
-            <pre className="mt-2 max-h-64 overflow-auto rounded-lg bg-muted p-3 font-sans whitespace-pre-wrap">
-              {cv.text}
-            </pre>
-          </details>
-        </div>
-      ) : (
-        <p className="text-muted-foreground">Ainda não há CV carregado.</p>
-      )}
-
-      <input
-        ref={fileInput}
-        type="file"
-        accept=".pdf"
-        className="hidden"
-        onChange={handleFileChosen}
-      />
-      <div className="flex gap-2">
-        <Button
-          disabled={disabled || isExtracting}
-          onClick={() => fileInput.current?.click()}
-        >
-          Escolher ficheiro
-        </Button>
+    <Card className="h-full shadow-lg">
+      <CardHeader>
+        <CardTitle className="text-sm font-bold tracking-widest text-muted-foreground">
+          CV
+        </CardTitle>
         {cv && (
-          <Button
-            variant="outline"
-            disabled={disabled || isExtracting}
-            onClick={removeCv}
-          >
-            Remover
-          </Button>
+          <CardAction>
+            <StatusBadge>CARREGADO ✓</StatusBadge>
+          </CardAction>
         )}
-      </div>
+      </CardHeader>
+      <CardContent className="flex flex-col gap-3">
+        {cv ? (
+          <div className="flex flex-col gap-1">
+            <p className="font-medium">CV em uso: {cv.fileName}</p>
+            <p className="text-muted-foreground">
+              Carregado em {new Date(cv.uploadedAt).toLocaleString("pt-PT")}
+            </p>
+            <details>
+              <summary className="cursor-pointer">
+                Pré-visualizar o texto extraído
+              </summary>
+              <pre className="mt-2 max-h-64 overflow-auto rounded-lg bg-muted p-3 font-sans whitespace-pre-wrap">
+                {cv.text}
+              </pre>
+            </details>
+          </div>
+        ) : (
+          <p className="text-muted-foreground">Ainda não há CV carregado.</p>
+        )}
 
-      {isExtracting && <p role="status">A extrair o texto do PDF…</p>}
-      {error && (
-        <p role="alert" className="text-destructive">
-          {error}
-        </p>
-      )}
-    </div>
+        <input
+          ref={fileInput}
+          type="file"
+          accept=".pdf"
+          className="hidden"
+          onChange={handleFileChosen}
+        />
+        <div className="flex gap-2">
+          <Button
+            disabled={disabled || isExtracting}
+            onClick={() => fileInput.current?.click()}
+          >
+            Escolher ficheiro
+          </Button>
+          {cv && (
+            <Button
+              variant="outline"
+              disabled={disabled || isExtracting}
+              onClick={removeCv}
+            >
+              Remover
+            </Button>
+          )}
+        </div>
+
+        {isExtracting && <p role="status">A extrair o texto do PDF…</p>}
+        {error && (
+          <p role="alert" className="text-destructive">
+            {error}
+          </p>
+        )}
+      </CardContent>
+    </Card>
   );
 }
