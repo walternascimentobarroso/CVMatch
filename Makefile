@@ -19,3 +19,11 @@ build: ## Gera o build de produção
 .PHONY: lint
 lint: ## Corre o ESLint
 	pnpm lint
+
+.PHONY: test
+test: ## Corre os testes
+	pnpm test
+
+.PHONY: compare
+compare: ## Compara os modelos da Groq com as fixtures
+	pnpm compare-models

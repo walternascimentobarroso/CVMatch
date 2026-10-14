@@ -33,7 +33,7 @@ Carregar o CV em PDF uma vez, extrair o texto e lembrá-lo no browser, para que 
 
 ## Critério de concluído
 
-Verificação manual conduzida com o MCP do Playwright. Os PDFs de teste são fictícios e ficam commitados numa pasta de fixtures.
+Verificação manual conduzida com o MCP do Playwright. Os PDFs de teste são fictícios e ficam na pasta `fixtures/`, ignorada pelo git.
 
 - [ ] `make build` e `make lint` terminam sem erros.
 - [ ] Carregar um PDF com texto mostra-o como CV em uso, com nome do ficheiro, data de carregamento e pré-visualização expansível.

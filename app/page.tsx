@@ -1,5 +1,7 @@
+import { CvBlock } from "@/components/cv-block";
 import {
   Card,
+  CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
@@ -16,6 +18,9 @@ export default function Home() {
             compatíveis são.
           </CardDescription>
         </CardHeader>
+        <CardContent>
+          <CvBlock />
+        </CardContent>
       </Card>
     </main>
   );
