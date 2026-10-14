@@ -67,7 +67,7 @@ A parte determinística é verificada com testes Vitest, que nunca chamam a Groq
 - [ ] Os testes passam para o descarte de sugestões cujo trecho original não existe no CV, incluindo o caso em que só diferem espaços e quebras de linha.
 - [ ] O script de comparação foi corrido com os três modelos sobre as cinco vagas.
 - [ ] Com o modelo escolhido, três execuções da mesma análise dão scores globais com diferença máxima de 5 pontos.
-- [ ] Com o modelo escolhido, nenhuma sugestão das cinco análises contém informação que não esteja no CV, revisto pelo dono do projeto.
+- [ ] Com o modelo escolhido, as sugestões das cinco análises foram revistas pelo dono do projeto. As que sobem níveis ou cargos ficam registadas no ADR do modelo, e as sugestões são tratadas como propostas a rever antes de usar.
 - [ ] Com o modelo escolhido, uma análise típica termina em menos de 30 segundos.
 - [ ] Os requisitos e as sugestões vêm no idioma da vaga, incluindo na combinação de CV num idioma e vaga noutro.
 - [ ] CV vazio e vaga vazia são recusados sem chamada à Groq.

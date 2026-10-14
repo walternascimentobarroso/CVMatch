@@ -1,6 +1,6 @@
 # ADR 0002: Usar qwen/qwen3.8-27b da Groq para a análise do CV
 
-- **Status:** Proposto
+- **Status:** Aceito (2026-10-14)
 - **Data:** 2026-10-14
 - **Decisores:** Walter Nascimento
 - **Origem:** [PRD](../prd.md) · [Spec analise](../../specs/analise.md)
@@ -25,21 +25,21 @@ O PRD deixou em aberto o modelo da Groq, a escolher depois de testar o CV contra
 
 ## Decisão
 
-Escolhemos **`qwen/qwen3.8-27b`** porque foi o único que cumpriu a estabilidade, o idioma e o tempo na comparação final: diferença de 0 pontos entre execuções nas cinco vagas, idioma correto nas cinco vagas e no máximo 1,8 s por análise, sem respostas inválidas.
+Escolhemos **`qwen/qwen3.8-27b`** porque foi o único que cumpriu a estabilidade, o idioma e o tempo na comparação final: diferença de 0 pontos entre execuções nas cinco vagas, idioma correto nas cinco vagas e no máximo 2 s por análise, com 1 resposta inválida em 15.
 
 A comparação usou o script `pnpm compare-models` com um CV fictício e cinco vagas (três em português, duas em inglês), três execuções por modelo e por vaga, temperatura zero e o prompt final da spec.
 
 | Modelo | Respostas inválidas | Diferença máxima | Idioma | Tempo máximo |
 |---|---|---|---|---|
-| `qwen/qwen3.8-27b` | 0 de 15 | 0 | correto | 1,8 s |
-| `openai/gpt-oss-120b` | 0 de 15 | 8 | correto | 5,9 s |
-| `openai/gpt-oss-20b` | 12 de 15 | 0 nas que responderam | — | 2,9 s |
+| `qwen/qwen3.8-27b` | 1 de 15 | 0 | correto | 2 s |
+| `openai/gpt-oss-120b` | 0 de 15 | 15 | sugestões em português numa vaga em inglês | 6,5 s |
+| `openai/gpt-oss-20b` | 14 de 15 | — | — | 3,1 s |
 
 ### Consequências
 
 - **Positivas:** score reprodutível; análises muito abaixo do limite de 30 s; poucos tokens por análise, o que deixa mais margem no limite por minuto da Groq.
-- **Negativas:** algumas sugestões ainda sobem níveis ou cargos ("avançado" para "fluente", "orientei" para "liderança"), apesar de o prompt o proibir. Essas sugestões não são descartadas pelo código, que só verifica o trecho original (R18); a fidelidade da versão proposta depende de revisão manual.
-- **Riscos e mitigação:** o modelo está em preview na Groq e pode mudar de comportamento ou ser retirado. A alternativa é **`openai/gpt-oss-120b`**, o segundo classificado: nunca deu respostas inválidas, mas oscilou 8 pontos numa vaga. A troca é uma constante em `app/api/analise/route.ts`, seguida de nova corrida do script.
+- **Negativas:** algumas sugestões ainda sobem níveis ou cargos ("avançado" para "fluente", "orientei" para "liderança", "experiência sólida", "domínio", "backend"), mesmo depois de o prompt proibir estes casos com exemplos explícitos. Essas sugestões não são descartadas pelo código, que só verifica o trecho original (R18). Aceitamos o risco: as sugestões são propostas que o dono do projeto revê antes de usar no CV.
+- **Riscos e mitigação:** o modelo está em preview na Groq e pode mudar de comportamento ou ser retirado. A alternativa é **`openai/gpt-oss-120b`**, o segundo classificado: nunca deu respostas inválidas, mas oscilou até 15 pontos na mesma vaga. A troca é uma constante em `app/api/analise/route.ts`, seguida de nova corrida do script.
 
 ### Como validar
 
@@ -54,13 +54,13 @@ Correr `pnpm compare-models` com o CV real e cinco vagas reais: a diferença má
 
 ### openai/gpt-oss-120b
 
-- **Prós:** fora de preview; sem respostas inválidas; idioma correto.
-- **Contras:** score oscilou 8 pontos na mesma vaga; numa vaga as sugestões copiaram o texto da vaga em vez de reformular o CV; mais lento e mais caro em tokens, por usar raciocínio.
+- **Prós:** fora de preview; sem respostas inválidas; sugestões que raramente acrescentam factos.
+- **Contras:** score oscilou até 15 pontos na mesma vaga; numa vaga em inglês as sugestões vieram em português; numa vaga as sugestões copiaram o texto da vaga em vez de reformular o CV; mais lento e mais caro em tokens, por usar raciocínio.
 
 ### openai/gpt-oss-20b
 
 - **Prós:** rápido e estável quando responde.
-- **Contras:** 12 de 15 respostas falharam a validação do esquema estrito do lado da Groq, o que o torna inutilizável.
+- **Contras:** 14 de 15 respostas falharam a validação do esquema estrito do lado da Groq, o que o torna inutilizável.
 
 ## Links
 

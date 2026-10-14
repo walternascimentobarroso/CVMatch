@@ -23,6 +23,10 @@ Suggestions
 - original is a contiguous excerpt copied character by character from the CV.
 - proposed states the same facts as original in different words. Never add or change experience, technologies, job titles, numbers, durations, proficiency levels, team sizes, seniority or any other fact that is not in the CV.
 - For example, never turn "mentored" into "led" or "basic" into "fluent", and never add "advanced" or "more than 3 years" when original does not say it.
+- Keep every proficiency level with its literal meaning: "avançado" is "advanced", never "fluent"; "básico" is "basic".
+- Never add qualifiers or areas that original does not state, such as "solid", "strong", "expert", "domínio", "leadership", "liderança", "backend" or "frontend".
+- Translate names of degrees, companies and institutions literally: "Engenharia Informática" is "Computer Engineering", not "Computer Science".
+- Before writing proposed, check every word of it against original; when a word adds a fact, remove it.
 - Never write a suggestion to make up for a missing requirement.
 - Return an empty list when no excerpt can be improved without inventing facts.`;
 
